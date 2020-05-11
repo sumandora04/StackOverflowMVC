@@ -1,13 +1,15 @@
 package com.notepoint.stackoverflowmvc.screens.questionslist;
 /*
-     Created by Suman on 5/9/2020.
+     Created by Suman on 5/11/2020.
 */
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.Question;
@@ -15,32 +17,20 @@ import com.notepoint.stackoverflowmvc.questions.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionListViewMvcImpl implements QuestionsListAdapter.OnQuestionClickListener, QuestionListViewMvc {
+public class QuestionListViewMvcImpl implements QuestionListRecyclerAdapter.Listener, QuestionListViewMvc {
 
     private View mRootView;
-    private ListView mLstQuestions;
-    private QuestionsListAdapter mQuestionsListAdapter;
-
-    //Listener lists:
-    private final List<Listener> mListeners = new ArrayList<>(1);
+    private RecyclerView mQuestionRecycler;
+    private List<Listener> mListeners = new ArrayList<>(1);
+    private QuestionListRecyclerAdapter mQuestionListRecyclerAdapter;
 
     public QuestionListViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
         mRootView = inflater.inflate(R.layout.layout_questions_list, parent, false);
 
-        mLstQuestions = findViewById(R.id.lst_questions);
-        mQuestionsListAdapter = new QuestionsListAdapter(getContext(), this);
-        mLstQuestions.setAdapter(mQuestionsListAdapter);
-    }
-
-
-    @Override
-    public View getRootView() {
-        return mRootView;
-    }
-
-    //A generic method to get the views by id:
-    private <T extends View> T findViewById(int id) {
-        return getRootView().findViewById(id);
+        mQuestionRecycler = findViewById(R.id.recycler_questions);
+        mQuestionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        mQuestionListRecyclerAdapter = new QuestionListRecyclerAdapter(inflater, this);
+        mQuestionRecycler.setAdapter(mQuestionListRecyclerAdapter);
     }
 
     private Context getContext() {
@@ -48,22 +38,30 @@ public class QuestionListViewMvcImpl implements QuestionsListAdapter.OnQuestionC
     }
 
     @Override
-    public void bindQuestions(List<Question> questions) {
-        mQuestionsListAdapter.clear();
-        mQuestionsListAdapter.addAll(questions);
-        mQuestionsListAdapter.notifyDataSetChanged();
+    public View getRootView() {
+        return mRootView;
+    }
+
+
+    //A generic method to get the views by id:
+    private <T extends View> T findViewById(int id) {
+        return getRootView().findViewById(id);
     }
 
     @Override
-    public void registerListener(Listener listener){
+    public void registerListener(Listener listener) {
         mListeners.add(listener);
     }
 
     @Override
-    public void unRegisterListener(Listener listener){
+    public void unRegisterListener(Listener listener) {
         mListeners.remove(listener);
     }
 
+    @Override
+    public void bindQuestions(List<Question> questions) {
+        mQuestionListRecyclerAdapter.bindQuestion(questions);
+    }
 
     @Override
     public void onQuestionClicked(Question question) {

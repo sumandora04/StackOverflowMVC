@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.notepoint.stackoverflowmvc.questions.Question;
 
+import java.util.List;
+
 public interface QuestionsListItemViewMvc {
     public interface Listener{
         void onQuestionClicked(Question question);
