@@ -15,7 +15,8 @@ import com.notepoint.stackoverflowmvc.questions.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionListViewMvcImplOld implements QuestionsListAdapter.OnQuestionClickListener, QuestionListViewMvc {
+public class QuestionListViewMvcImplOld implements QuestionListViewMvc,
+        QuestionsListAdapter.OnQuestionClickListener{
 
     private View mRootView;
     private ListView mLstQuestions;

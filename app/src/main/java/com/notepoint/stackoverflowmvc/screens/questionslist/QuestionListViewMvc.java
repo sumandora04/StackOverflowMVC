@@ -6,20 +6,16 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
 import android.view.View;
 
 import com.notepoint.stackoverflowmvc.questions.Question;
+import com.notepoint.stackoverflowmvc.screens.common.ObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.ViewMvc;
 
 import java.util.List;
 
-interface QuestionListViewMvc {
+interface QuestionListViewMvc extends ObservableViewMvc<QuestionListViewMvc.Listener> {
     //Interface for notifying question clicked to the activity:
     public interface Listener{
         void onQuestionClicked(Question question);
     }
-
-    void registerListener(Listener listener);
-
-    void unRegisterListener(Listener listener);
-
-    View getRootView();
 
     void bindQuestions(List<Question> questions);
 

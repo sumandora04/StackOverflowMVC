@@ -10,47 +10,29 @@ import android.widget.TextView;
 
 import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.Question;
+import com.notepoint.stackoverflowmvc.screens.common.BaseObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.BaseViewMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsListItemViewMvcImpl implements QuestionsListItemViewMvc {
-    private View mRootView;
-    private List<Listener> mListeners = new ArrayList<>(1);
+public class QuestionsListItemViewMvcImpl extends BaseObservableViewMvc<QuestionsListItemViewMvc.Listener>
+        implements QuestionsListItemViewMvc {
     private Question mQuestion;
     private TextView mTextTitle;
 
     public QuestionsListItemViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
-        mRootView = inflater.inflate(R.layout.layout_question_list_item, parent, false);
+        setRootView(inflater.inflate(R.layout.layout_question_list_item, parent, false));
         mTextTitle = findViewById(R.id.txt_title);
 
         getRootView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (Listener listener : mListeners) {
+                for (Listener listener : getmListener()) {
                     listener.onQuestionClicked(mQuestion);
                 }
             }
         });
-    }
-
-    private <T extends View> T findViewById(int id) {
-        return getRootView().findViewById(id);
-    }
-
-    @Override
-    public View getRootView() {
-        return mRootView;
-    }
-
-    @Override
-    public void registerListener(Listener listener) {
-        mListeners.add(listener);
-    }
-
-    @Override
-    public void unRegisterListener(Listener listener) {
-        mListeners.remove(listener);
     }
 
     @Override

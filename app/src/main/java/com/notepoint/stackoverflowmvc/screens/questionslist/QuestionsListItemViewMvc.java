@@ -6,16 +6,14 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
 import android.view.View;
 
 import com.notepoint.stackoverflowmvc.questions.Question;
+import com.notepoint.stackoverflowmvc.screens.common.ObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.ViewMvc;
 
-import java.util.List;
+public interface QuestionsListItemViewMvc extends ObservableViewMvc<QuestionsListItemViewMvc.Listener> {
 
-public interface QuestionsListItemViewMvc {
     public interface Listener{
         void onQuestionClicked(Question question);
     }
 
-    View getRootView();
-    void registerListener(Listener listener);
-    void unRegisterListener(Listener listener);
     void bindQuestion(Question question);
 }
