@@ -4,12 +4,16 @@ package com.notepoint.stackoverflowmvc.common.dependancyInjection;
 */
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionDetailsUseCase;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
+import com.notepoint.stackoverflowmvc.screens.common.MessagesDisplayer;
+import com.notepoint.stackoverflowmvc.screens.common.ScreenNavigator;
 import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
+import com.notepoint.stackoverflowmvc.screens.questionslist.QuestionListController;
 
 public class ControllerCompositionRoot {
     private final CompositionRoot mCompositionRoot;
@@ -39,5 +43,21 @@ public class ControllerCompositionRoot {
 
     public FetchQuestionListUseCase getFetchQuestionListUseCase() {
         return new FetchQuestionListUseCase(getStackOverflowApi());
+    }
+
+    public QuestionListController getQuestionListController() {
+        return new QuestionListController(getFetchQuestionListUseCase(),getScreenNavigator(),getMessageDisplayer());
+    }
+
+    public ScreenNavigator getScreenNavigator(){
+        return new ScreenNavigator(getContext());
+    }
+
+    public MessagesDisplayer getMessageDisplayer(){
+        return new MessagesDisplayer(getContext());
+    }
+
+    private Context getContext() {
+        return mActivity;
     }
 }

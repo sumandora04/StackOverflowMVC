@@ -23,62 +23,36 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionsListActivity extends BaseActivity implements QuestionListViewMvcImpl.Listener, FetchQuestionListUseCase.Listener {
+public class QuestionsListActivity extends BaseActivity {
 
-
-    private FetchQuestionListUseCase mFetchQuestionListUseCase;
-    //ViewMvc:
-    private QuestionListViewMvc mViewMvc;
+    private QuestionListController mQuestionListController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Initialise ViewMvc:
-//        mViewMvc = new QuestionListViewMvcImpl(LayoutInflater.from(this),null); // Activity does not have a parent view
-        mViewMvc = getControllerComposition().getViewMvcFactory().getQuestionListViewMvc(null);
-        //Register the listener:
-        mViewMvc.registerListener(this);
+        mQuestionListController = getControllerComposition().getQuestionListController();
+        QuestionListViewMvc viewMvc = getControllerComposition().getViewMvcFactory().getQuestionListViewMvc(null);
 
-        mFetchQuestionListUseCase = getControllerComposition().getFetchQuestionListUseCase();
-        //Set the view:
-        setContentView(mViewMvc.getRootView());
+        mQuestionListController.bindView(viewMvc);
+        setContentView(viewMvc.getRootView());
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mFetchQuestionListUseCase.registerListener(this);
-        mViewMvc.showProgressBar();
-        mFetchQuestionListUseCase.fetchLastActiveQuestionsListAndNotify();
+        mQuestionListController.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mFetchQuestionListUseCase.unregisterListener(this);
-    }
-
-    private void bindQuestions(List<Question> questions) {
-        mViewMvc.hideProgressBar();
-        mViewMvc.bindQuestions(questions);
+        mQuestionListController.onStop();
     }
 
 
-    @Override
-    public void onQuestionClicked(Question question) {
-        QuestionDetailsActivity.start(this, question.getId());
-    }
 
-    @Override
-    public void onLastActiveQuestionFetched(List<Question> questions) {
-        bindQuestions(questions);
-    }
 
-    @Override
-    public void onQuestionDetailFetchFailed() {
-        mViewMvc.hideProgressBar();
-        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
-    }
+
 }

@@ -11,6 +11,7 @@ import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionDetailsUseCase;
 import com.notepoint.stackoverflowmvc.questions.QuestionDetails;
 import com.notepoint.stackoverflowmvc.screens.common.BaseActivity;
+import com.notepoint.stackoverflowmvc.screens.common.MessagesDisplayer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,6 +20,7 @@ import retrofit2.Response;
 public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
 
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    private MessagesDisplayer mMessagesDisplayer;
     private QuestionDetailViewMvc mViewMvc;
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -37,6 +39,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
         super.onCreate(savedInstanceState);
 
         mFetchQuestionDetailsUseCase = getControllerComposition().getFetchQuestionDetailsUsecase();
+        mMessagesDisplayer = getControllerComposition().getMessageDisplayer();
         mViewMvc = getControllerComposition().getViewMvcFactory().getQuestionDetailViewMvc(null);
         setContentView(mViewMvc.getRootView());
     }
@@ -69,6 +72,6 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     @Override
     public void onQuestionDetailFetchFailed() {
         mViewMvc.hideProgressBar();
-        Toast.makeText(this, "Network failed", Toast.LENGTH_SHORT).show();
+        mMessagesDisplayer.displayNetworkErrorMessage();
     }
 }
