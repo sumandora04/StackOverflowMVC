@@ -11,6 +11,7 @@ import com.notepoint.stackoverflowmvc.common.Constants;
 import com.notepoint.stackoverflowmvc.networking.QuestionSchema;
 import com.notepoint.stackoverflowmvc.networking.QuestionsListResponseSchema;
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
+import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
 import com.notepoint.stackoverflowmvc.questions.Question;
 import com.notepoint.stackoverflowmvc.screens.common.BaseActivity;
 import com.notepoint.stackoverflowmvc.screens.questionDetails.QuestionDetailsActivity;
@@ -22,10 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionsListActivity extends BaseActivity implements QuestionListViewMvcImpl.Listener {
+public class QuestionsListActivity extends BaseActivity implements QuestionListViewMvcImpl.Listener, FetchQuestionListUseCase.Listener {
 
-    private StackoverflowApi mStackoverflowApi;
 
+    private FetchQuestionListUseCase mFetchQuestionListUseCase;
     //ViewMvc:
     private QuestionListViewMvc mViewMvc;
 
@@ -39,51 +40,45 @@ public class QuestionsListActivity extends BaseActivity implements QuestionListV
         //Register the listener:
         mViewMvc.registerListener(this);
 
+        mFetchQuestionListUseCase = getControllerComposition().getFetchQuestionListUseCase();
         //Set the view:
         setContentView(mViewMvc.getRootView());
 
-        mStackoverflowApi = getControllerComposition().getStackOverflowApi();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        fetchQuestions();
+        mFetchQuestionListUseCase.registerListener(this);
+        mViewMvc.showProgressBar();
+        mFetchQuestionListUseCase.fetchLastActiveQuestionsListAndNotify();
     }
 
-    private void fetchQuestions() {
-        mStackoverflowApi.fetchLastActiveQuestions(Constants.QUESTIONS_LIST_PAGE_SIZE)
-                .enqueue(new Callback<QuestionsListResponseSchema>() {
-                    @Override
-                    public void onResponse(Call<QuestionsListResponseSchema> call, Response<QuestionsListResponseSchema> response) {
-                        if (response.isSuccessful()) {
-                            bindQuestions(response.body().getQuestions());
-                        } else {
-                            networkCallFailed();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<QuestionsListResponseSchema> call, Throwable t) {
-                        networkCallFailed();
-                    }
-                } );
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mFetchQuestionListUseCase.unregisterListener(this);
     }
 
-    private void bindQuestions(List<QuestionSchema> questionSchemas) {
-        List<Question> questions = new ArrayList<>(questionSchemas.size());
-        for (QuestionSchema questionSchema : questionSchemas) {
-            questions.add(new Question(questionSchema.getId(), questionSchema.getTitle()));
-        }
+    private void bindQuestions(List<Question> questions) {
+        mViewMvc.hideProgressBar();
         mViewMvc.bindQuestions(questions);
     }
 
-    private void networkCallFailed() {
-        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onQuestionClicked(Question question) {
         QuestionDetailsActivity.start(this, question.getId());
+    }
+
+    @Override
+    public void onLastActiveQuestionFetched(List<Question> questions) {
+        bindQuestions(questions);
+    }
+
+    @Override
+    public void onQuestionDetailFetchFailed() {
+        mViewMvc.hideProgressBar();
+        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
     }
 }

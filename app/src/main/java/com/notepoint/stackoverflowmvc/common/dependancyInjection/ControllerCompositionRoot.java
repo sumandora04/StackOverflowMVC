@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionDetailsUseCase;
+import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
 import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
 
 public class ControllerCompositionRoot {
@@ -20,7 +21,7 @@ public class ControllerCompositionRoot {
     }
 
 
-    public StackoverflowApi getStackOverflowApi() {
+    private StackoverflowApi getStackOverflowApi() {
         return mCompositionRoot.getStackOverflowApi();
     }
 
@@ -34,5 +35,9 @@ public class ControllerCompositionRoot {
 
     public FetchQuestionDetailsUseCase getFetchQuestionDetailsUsecase() {
         return new FetchQuestionDetailsUseCase(getStackOverflowApi());
+    }
+
+    public FetchQuestionListUseCase getFetchQuestionListUseCase() {
+        return new FetchQuestionListUseCase(getStackOverflowApi());
     }
 }

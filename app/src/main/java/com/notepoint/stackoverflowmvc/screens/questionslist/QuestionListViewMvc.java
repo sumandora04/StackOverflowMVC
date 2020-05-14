@@ -18,6 +18,8 @@ public interface QuestionListViewMvc extends ObservableViewMvc<QuestionListViewM
     }
 
     void bindQuestions(List<Question> questions);
+    void hideProgressBar();
+    void showProgressBar();
 
 
 }
