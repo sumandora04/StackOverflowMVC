@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.notepoint.stackoverflowmvc.questions.Question;
+import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,13 @@ public class QuestionListRecyclerAdapter extends RecyclerView.Adapter<QuestionLi
     }
 
 
-    private final LayoutInflater mInflater;
     private final Listener mListener;
+    private final ViewMvcFactory mViewMvcFactory;
     private List<Question> mQuestions = new ArrayList<>();
 
-    public QuestionListRecyclerAdapter(LayoutInflater mInflater, Listener mListener) {
-        this.mInflater = mInflater;
+    public QuestionListRecyclerAdapter(Listener mListener, ViewMvcFactory viewMvcFactory) {
         this.mListener = mListener;
+        mViewMvcFactory = viewMvcFactory;
     }
 
     public void bindQuestion(List<Question> questions) {
@@ -50,7 +51,7 @@ public class QuestionListRecyclerAdapter extends RecyclerView.Adapter<QuestionLi
     @NonNull
     @Override
     public QuestionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        QuestionsListItemViewMvc viewMvc = new QuestionsListItemViewMvcImpl(mInflater, parent);
+        QuestionsListItemViewMvc viewMvc = mViewMvcFactory.getQuestionListItemViewMvc(parent);
         viewMvc.registerListener(this);
         return new QuestionHolder(viewMvc);
     }

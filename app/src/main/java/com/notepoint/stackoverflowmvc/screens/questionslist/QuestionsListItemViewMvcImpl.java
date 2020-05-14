@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.Question;
 import com.notepoint.stackoverflowmvc.screens.common.BaseObservableViewMvc;
-import com.notepoint.stackoverflowmvc.screens.common.BaseViewMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionsListItemViewMvcImpl extends BaseObservableViewMvc<QuestionsListItemViewMvc.Listener>
         implements QuestionsListItemViewMvc {

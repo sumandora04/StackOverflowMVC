@@ -4,7 +4,6 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
 */
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import com.notepoint.stackoverflowmvc.R;
@@ -14,6 +13,7 @@ import com.notepoint.stackoverflowmvc.networking.QuestionsListResponseSchema;
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.Question;
 import com.notepoint.stackoverflowmvc.screens.common.BaseActivity;
+import com.notepoint.stackoverflowmvc.screens.questionDetails.QuestionDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionsListActivity extends BaseActivity implements QuestionListViewMvcImpl.Listener {
 
@@ -36,14 +34,15 @@ public class QuestionsListActivity extends BaseActivity implements QuestionListV
         super.onCreate(savedInstanceState);
 
         //Initialise ViewMvc:
-        mViewMvc = new QuestionListViewMvcImpl(LayoutInflater.from(this),null); // Activity does not have a parent view
+//        mViewMvc = new QuestionListViewMvcImpl(LayoutInflater.from(this),null); // Activity does not have a parent view
+        mViewMvc = getControllerComposition().getViewMvcFactory().getQuestionListViewMvc(null);
         //Register the listener:
         mViewMvc.registerListener(this);
 
         //Set the view:
         setContentView(mViewMvc.getRootView());
 
-        mStackoverflowApi = getComposition().getStackOverflowApi();
+        mStackoverflowApi = getControllerComposition().getStackOverflowApi();
     }
 
     @Override
@@ -85,6 +84,6 @@ public class QuestionsListActivity extends BaseActivity implements QuestionListV
 
     @Override
     public void onQuestionClicked(Question question) {
-        Toast.makeText(this, question.getTitle(), Toast.LENGTH_SHORT).show();
+        QuestionDetailsActivity.start(this, question.getId());
     }
 }

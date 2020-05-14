@@ -11,7 +11,7 @@ import com.notepoint.stackoverflowmvc.screens.common.ViewMvc;
 
 import java.util.List;
 
-interface QuestionListViewMvc extends ObservableViewMvc<QuestionListViewMvc.Listener> {
+public interface QuestionListViewMvc extends ObservableViewMvc<QuestionListViewMvc.Listener> {
     //Interface for notifying question clicked to the activity:
     public interface Listener{
         void onQuestionClicked(Question question);

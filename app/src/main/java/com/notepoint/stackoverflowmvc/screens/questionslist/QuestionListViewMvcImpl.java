@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.Question;
 import com.notepoint.stackoverflowmvc.screens.common.BaseObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ public class QuestionListViewMvcImpl extends BaseObservableViewMvc<QuestionListV
     private RecyclerView mQuestionRecycler;
     private QuestionListRecyclerAdapter mQuestionListRecyclerAdapter;
 
-    public QuestionListViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
+    public QuestionListViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.layout_questions_list, parent, false));
 
         mQuestionRecycler = findViewById(R.id.recycler_questions);
         mQuestionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mQuestionListRecyclerAdapter = new QuestionListRecyclerAdapter(inflater, this);
+        mQuestionListRecyclerAdapter = new QuestionListRecyclerAdapter(this, viewMvcFactory);
         mQuestionRecycler.setAdapter(mQuestionListRecyclerAdapter);
     }
 
@@ -34,7 +35,6 @@ public class QuestionListViewMvcImpl extends BaseObservableViewMvc<QuestionListV
     public void bindQuestions(List<Question> questions) {
         mQuestionListRecyclerAdapter.bindQuestion(questions);
     }
-
     @Override
     public void onQuestionClicked(Question question) {
         for (Listener listener : getmListener()) {
