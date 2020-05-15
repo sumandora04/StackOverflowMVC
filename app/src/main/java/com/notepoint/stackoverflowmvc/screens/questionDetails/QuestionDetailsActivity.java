@@ -3,24 +3,17 @@ package com.notepoint.stackoverflowmvc.screens.questionDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.notepoint.stackoverflowmvc.networking.QuestionDetailsResponseSchema;
-import com.notepoint.stackoverflowmvc.networking.QuestionSchema;
-import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionDetailsUseCase;
 import com.notepoint.stackoverflowmvc.questions.QuestionDetails;
-import com.notepoint.stackoverflowmvc.screens.common.BaseActivity;
-import com.notepoint.stackoverflowmvc.screens.common.MessagesDisplayer;
+import com.notepoint.stackoverflowmvc.screens.common.controller.BaseActivity;
+import com.notepoint.stackoverflowmvc.screens.common.toastHelper.ToastHelper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
+public class QuestionDetailsActivity extends BaseActivity
+        implements FetchQuestionDetailsUseCase.Listener, QuestionDetailViewMvc.Listener {
 
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    private MessagesDisplayer mMessagesDisplayer;
+    private ToastHelper mToastHelper;
     private QuestionDetailViewMvc mViewMvc;
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -39,7 +32,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
         super.onCreate(savedInstanceState);
 
         mFetchQuestionDetailsUseCase = getControllerComposition().getFetchQuestionDetailsUsecase();
-        mMessagesDisplayer = getControllerComposition().getMessageDisplayer();
+        mToastHelper = getControllerComposition().getMessageDisplayer();
         mViewMvc = getControllerComposition().getViewMvcFactory().getQuestionDetailViewMvc(null);
         setContentView(mViewMvc.getRootView());
     }
@@ -48,6 +41,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     @Override
     protected void onStart() {
         super.onStart();
+        mViewMvc.registerListener(this);
         mFetchQuestionDetailsUseCase.registerListener(this);
         mViewMvc.showProgressBar();
         mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(getQuestionId());
@@ -56,6 +50,7 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     @Override
     protected void onStop() {
         super.onStop();
+        mViewMvc.unRegisterListener(this);
         mFetchQuestionDetailsUseCase.unregisterListener(this);
     }
 
@@ -72,6 +67,11 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     @Override
     public void onQuestionDetailFetchFailed() {
         mViewMvc.hideProgressBar();
-        mMessagesDisplayer.displayNetworkErrorMessage();
+        mToastHelper.displayNetworkErrorMessage();
+    }
+
+    @Override
+    public void onNavigationUpClicked() {
+        onBackPressed();
     }
 }

@@ -1,4 +1,4 @@
-package com.notepoint.stackoverflowmvc.screens.common;
+package com.notepoint.stackoverflowmvc.screens.common.screenNavigator;
 /*
      Created by Suman on 5/14/2020.
 */

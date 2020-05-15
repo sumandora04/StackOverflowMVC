@@ -4,24 +4,8 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
 */
 
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.notepoint.stackoverflowmvc.R;
-import com.notepoint.stackoverflowmvc.common.Constants;
-import com.notepoint.stackoverflowmvc.networking.QuestionSchema;
-import com.notepoint.stackoverflowmvc.networking.QuestionsListResponseSchema;
-import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
-import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
-import com.notepoint.stackoverflowmvc.questions.Question;
-import com.notepoint.stackoverflowmvc.screens.common.BaseActivity;
-import com.notepoint.stackoverflowmvc.screens.questionDetails.QuestionDetailsActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.notepoint.stackoverflowmvc.screens.common.controller.BaseActivity;
 
 public class QuestionsListActivity extends BaseActivity {
 
@@ -33,10 +17,8 @@ public class QuestionsListActivity extends BaseActivity {
 
         mQuestionListController = getControllerComposition().getQuestionListController();
         QuestionListViewMvc viewMvc = getControllerComposition().getViewMvcFactory().getQuestionListViewMvc(null);
-
         mQuestionListController.bindView(viewMvc);
         setContentView(viewMvc.getRootView());
-
     }
 
     @Override
@@ -50,9 +32,4 @@ public class QuestionsListActivity extends BaseActivity {
         super.onStop();
         mQuestionListController.onStop();
     }
-
-
-
-
-
 }

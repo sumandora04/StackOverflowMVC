@@ -1,10 +1,12 @@
-package com.notepoint.stackoverflowmvc.screens.common;
+package com.notepoint.stackoverflowmvc.screens.common.views;
 /*
      Created by Suman on 5/11/2020.
 */
 
 import android.content.Context;
 import android.view.View;
+
+import androidx.annotation.StringRes;
 
 public abstract class BaseViewMvc implements ViewMvc {
     private View mRootView;
@@ -25,5 +27,9 @@ public abstract class BaseViewMvc implements ViewMvc {
 
     protected Context getContext() {
         return getRootView().getContext();
+    }
+
+    protected String getString(@StringRes int id) {
+        return getContext().getString(id);
     }
 }

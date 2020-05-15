@@ -1,9 +1,10 @@
-package com.notepoint.stackoverflowmvc.networking;
+package com.notepoint.stackoverflowmvc.networking.questions;
 /*
      Created by Suman on 5/9/2020.
 */
 
 import com.google.gson.annotations.SerializedName;
+import com.notepoint.stackoverflowmvc.networking.users.UserSchema;
 
 public class QuestionSchema {
 

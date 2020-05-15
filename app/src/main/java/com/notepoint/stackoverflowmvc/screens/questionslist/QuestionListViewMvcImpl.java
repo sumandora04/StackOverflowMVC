@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.Question;
-import com.notepoint.stackoverflowmvc.screens.common.BaseObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.toolbar.ToolbarViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.views.BaseObservableViewMvc;
 import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
 
 import java.util.List;
@@ -21,8 +23,11 @@ import java.util.List;
 public class QuestionListViewMvcImpl extends BaseObservableViewMvc<QuestionListViewMvc.Listener>
         implements QuestionListViewMvc, QuestionListRecyclerAdapter.Listener{
 
-    private ProgressBar mProgressBar;
-    private RecyclerView mQuestionRecycler;
+    private final ToolbarViewMvc mToolbarViewMvc;
+    private final Toolbar mToolbar;
+
+    private final ProgressBar mProgressBar;
+    private final RecyclerView mQuestionRecycler;
     private QuestionListRecyclerAdapter mQuestionListRecyclerAdapter;
 
     public QuestionListViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
@@ -34,6 +39,12 @@ public class QuestionListViewMvcImpl extends BaseObservableViewMvc<QuestionListV
         mQuestionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mQuestionListRecyclerAdapter = new QuestionListRecyclerAdapter(this, viewMvcFactory);
         mQuestionRecycler.setAdapter(mQuestionListRecyclerAdapter);
+
+        /* For adding toolbar */
+        mToolbar = findViewById(R.id.toolbar);
+        mToolbarViewMvc = viewMvcFactory.getToolBarViewMvc(mToolbar);
+        mToolbarViewMvc.setToolbarTitle(getString(R.string.questions_list_screen_title));
+        mToolbar.addView(mToolbarViewMvc.getRootView());
     }
 
     @Override

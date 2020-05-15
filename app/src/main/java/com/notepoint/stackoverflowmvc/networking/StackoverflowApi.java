@@ -3,6 +3,9 @@ package com.notepoint.stackoverflowmvc.networking;
      Created by Suman on 5/9/2020.
 */
 
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionDetailsResponseSchema;
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionsListResponseSchema;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

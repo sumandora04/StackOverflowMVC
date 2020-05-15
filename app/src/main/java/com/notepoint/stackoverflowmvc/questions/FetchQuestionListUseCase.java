@@ -5,9 +5,8 @@ package com.notepoint.stackoverflowmvc.questions;
 
 import com.notepoint.stackoverflowmvc.common.BaseObservable;
 import com.notepoint.stackoverflowmvc.common.Constants;
-import com.notepoint.stackoverflowmvc.networking.QuestionDetailsResponseSchema;
-import com.notepoint.stackoverflowmvc.networking.QuestionSchema;
-import com.notepoint.stackoverflowmvc.networking.QuestionsListResponseSchema;
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionSchema;
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionsListResponseSchema;
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 
 import java.util.ArrayList;

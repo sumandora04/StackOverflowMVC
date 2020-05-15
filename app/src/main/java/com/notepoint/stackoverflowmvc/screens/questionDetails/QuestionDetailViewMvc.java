@@ -4,10 +4,18 @@ package com.notepoint.stackoverflowmvc.screens.questionDetails;
 */
 
 import com.notepoint.stackoverflowmvc.questions.QuestionDetails;
-import com.notepoint.stackoverflowmvc.screens.common.ViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.views.ObservableViewMvc;
+import com.notepoint.stackoverflowmvc.screens.common.views.ViewMvc;
 
-public interface QuestionDetailViewMvc extends ViewMvc {
+public interface QuestionDetailViewMvc extends ObservableViewMvc<QuestionDetailViewMvc.Listener> {
+
+    public interface Listener {
+        void onNavigationUpClicked();
+    }
+
     void bindQuestionDetail(QuestionDetails questionDetails);
+
     void hideProgressBar();
+
     void showProgressBar();
 }

@@ -1,4 +1,4 @@
-package com.notepoint.stackoverflowmvc;
+package com.notepoint.stackoverflowmvc.common;
 
 import android.app.Application;
 

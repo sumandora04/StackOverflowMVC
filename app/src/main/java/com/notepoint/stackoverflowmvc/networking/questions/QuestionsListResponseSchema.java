@@ -1,4 +1,4 @@
-package com.notepoint.stackoverflowmvc.networking;
+package com.notepoint.stackoverflowmvc.networking.questions;
 /*
      Created by Suman on 5/9/2020.
 */

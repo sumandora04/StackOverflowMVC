@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionDetailsUseCase;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
-import com.notepoint.stackoverflowmvc.screens.common.MessagesDisplayer;
-import com.notepoint.stackoverflowmvc.screens.common.ScreenNavigator;
+import com.notepoint.stackoverflowmvc.screens.common.toastHelper.ToastHelper;
+import com.notepoint.stackoverflowmvc.screens.common.screenNavigator.ScreenNavigator;
 import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
 import com.notepoint.stackoverflowmvc.screens.questionslist.QuestionListController;
 
@@ -53,8 +53,8 @@ public class ControllerCompositionRoot {
         return new ScreenNavigator(getContext());
     }
 
-    public MessagesDisplayer getMessageDisplayer(){
-        return new MessagesDisplayer(getContext());
+    public ToastHelper getMessageDisplayer(){
+        return new ToastHelper(getContext());
     }
 
     private Context getContext() {

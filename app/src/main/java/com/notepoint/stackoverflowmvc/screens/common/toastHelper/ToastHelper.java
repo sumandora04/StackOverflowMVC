@@ -1,4 +1,4 @@
-package com.notepoint.stackoverflowmvc.screens.common;
+package com.notepoint.stackoverflowmvc.screens.common.toastHelper;
 /*
      Created by Suman on 5/14/2020.
 */
@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 import com.notepoint.stackoverflowmvc.R;
 
-public class MessagesDisplayer {
+public class ToastHelper {
     private final Context mContext;
 
-    public MessagesDisplayer(Context mContext) {
+    public ToastHelper(Context mContext) {
         this.mContext = mContext;
     }
 

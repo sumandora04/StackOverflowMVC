@@ -3,8 +3,6 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
      Created by Suman on 5/11/2020.
 */
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.notepoint.stackoverflowmvc.questions.Question;
 import com.notepoint.stackoverflowmvc.screens.common.ViewMvcFactory;
+import com.notepoint.stackoverflowmvc.screens.questionslist.questionListItem.QuestionsListItemViewMvc;
 
 import java.util.ArrayList;
 import java.util.List;

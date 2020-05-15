@@ -1,12 +1,11 @@
-package com.notepoint.stackoverflowmvc.screens.common;
+package com.notepoint.stackoverflowmvc.screens.common.controller;
 /*
      Created by Suman on 5/9/2020.
 */
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.notepoint.stackoverflowmvc.CustomApplication;
-import com.notepoint.stackoverflowmvc.common.dependancyInjection.CompositionRoot;
+import com.notepoint.stackoverflowmvc.common.CustomApplication;
 import com.notepoint.stackoverflowmvc.common.dependancyInjection.ControllerCompositionRoot;
 
 public class BaseActivity extends AppCompatActivity {

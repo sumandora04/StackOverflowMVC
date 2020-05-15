@@ -3,11 +3,9 @@ package com.notepoint.stackoverflowmvc.questions;
      Created by Suman on 5/14/2020.
 */
 
-import android.widget.Toast;
-
 import com.notepoint.stackoverflowmvc.common.BaseObservable;
-import com.notepoint.stackoverflowmvc.networking.QuestionDetailsResponseSchema;
-import com.notepoint.stackoverflowmvc.networking.QuestionSchema;
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionDetailsResponseSchema;
+import com.notepoint.stackoverflowmvc.networking.questions.QuestionSchema;
 import com.notepoint.stackoverflowmvc.networking.StackoverflowApi;
 
 import retrofit2.Call;

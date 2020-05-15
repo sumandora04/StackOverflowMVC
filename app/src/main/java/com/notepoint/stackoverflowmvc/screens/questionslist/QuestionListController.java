@@ -5,13 +5,10 @@ package com.notepoint.stackoverflowmvc.screens.questionslist;
      Otherwise its better to keep the controller(activity) in one piece. (example: QuestionDetailsActivity)
 */
 
-import android.widget.Toast;
-
-import com.notepoint.stackoverflowmvc.R;
 import com.notepoint.stackoverflowmvc.questions.FetchQuestionListUseCase;
 import com.notepoint.stackoverflowmvc.questions.Question;
-import com.notepoint.stackoverflowmvc.screens.common.MessagesDisplayer;
-import com.notepoint.stackoverflowmvc.screens.common.ScreenNavigator;
+import com.notepoint.stackoverflowmvc.screens.common.toastHelper.ToastHelper;
+import com.notepoint.stackoverflowmvc.screens.common.screenNavigator.ScreenNavigator;
 
 import java.util.List;
 
@@ -20,13 +17,13 @@ public class QuestionListController implements QuestionListViewMvcImpl.Listener,
 
     private final FetchQuestionListUseCase mFetchQuestionListUseCase;
     private final ScreenNavigator mScreenNavigator;
-    private final MessagesDisplayer mMessagesDisplayer;
+    private final ToastHelper mToastHelper;
     private QuestionListViewMvc mViewMvc;
 
-    public QuestionListController(FetchQuestionListUseCase mFetchQuestionListUseCase, ScreenNavigator mScreenNavigator, MessagesDisplayer mMessagesDisplayer) {
+    public QuestionListController(FetchQuestionListUseCase mFetchQuestionListUseCase, ScreenNavigator mScreenNavigator, ToastHelper mToastHelper) {
         this.mFetchQuestionListUseCase = mFetchQuestionListUseCase;
         this.mScreenNavigator = mScreenNavigator;
-        this.mMessagesDisplayer = mMessagesDisplayer;
+        this.mToastHelper = mToastHelper;
     }
 
     protected void bindView(QuestionListViewMvc viewMvc){
@@ -61,6 +58,6 @@ public class QuestionListController implements QuestionListViewMvcImpl.Listener,
     @Override
     public void onQuestionDetailFetchFailed() {
         mViewMvc.hideProgressBar();
-        mMessagesDisplayer.displayNetworkErrorMessage();
+        mToastHelper.displayNetworkErrorMessage();
     }
 }
